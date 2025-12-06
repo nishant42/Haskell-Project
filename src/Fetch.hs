@@ -31,7 +31,7 @@ appKey = "ce0be199e475450ab9d80bc67a0ae261"
 url :: String
 url = "https://api.tfl.gov.uk/Line/Mode/tube,dlr,overground,elizabeth-line,tram/Status?app_id=" ++ T.unpack appId ++ "&app_key=" ++ T.unpack appKey
 
--- | Function to download data from the API
+-- |Here is a Function to download data from the API
 downloadData :: IO LBS.ByteString
 downloadData = do
     request <- parseRequest url
@@ -39,7 +39,7 @@ downloadData = do
     response <- httpLBS request'
     return $ getResponseBody response
 
--- | Function to download stations for a given line
+-- | Here is a Function to download stations for a given line
 fetchStations :: Text -> IO LBS.ByteString
 fetchStations lineId = do
     let url = "https://api.tfl.gov.uk/Line/" ++ T.unpack lineId ++ "/StopPoints?app_id=" ++ T.unpack appId ++ "&app_key=" ++ T.unpack appKey
@@ -48,7 +48,7 @@ fetchStations lineId = do
     response <- httpLBS request'
     return $ getResponseBody response
 
--- | Function to fetch journey options
+-- |  Here is a Function to fetch journey options
 fetchJourney :: String -> String -> Maybe String -> Maybe String -> IO LBS.ByteString
 fetchJourney from to modes preference = do
     let baseUrl = "https://api.tfl.gov.uk/Journey/JourneyResults/" ++ from ++ "/to/" ++ to

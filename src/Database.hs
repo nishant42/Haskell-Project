@@ -25,8 +25,8 @@ initialiseDB = do
     conn <- open "tfl.db"
     execute_ conn "CREATE TABLE IF NOT EXISTS lines (id TEXT PRIMARY KEY, name TEXT, modeName TEXT, statusSeverityDescription TEXT)"
     -- We are simplifying for now, just storing main line info and current status desc
-    -- In a real app we might want a separate table for statuses with foreign key
-    -- We remove PRIMARY KEY from id because it's not unique across lines (e.g. 0)
+    -- In a real app we need a separate table for statuses with foreign key
+    -- We need to remove PRIMARY KEY from id because it's not unique across lines (e.g. 0)
     execute_ conn "CREATE TABLE IF NOT EXISTS statuses (id INTEGER, lineId TEXT, severity INTEGER, description TEXT, reason TEXT, FOREIGN KEY(lineId) REFERENCES lines(id))"
     execute_ conn "CREATE TABLE IF NOT EXISTS stations (id TEXT PRIMARY KEY, commonName TEXT, lat REAL, lon REAL)"
     execute_ conn "CREATE TABLE IF NOT EXISTS line_stations (lineId TEXT, stationId TEXT, FOREIGN KEY(lineId) REFERENCES lines(id), FOREIGN KEY(stationId) REFERENCES stations(id))"
@@ -41,8 +41,7 @@ saveData lines = do
     -- Let's clear for simplicity to avoid duplicates if we run it multiple times, or use INSERT OR REPLACE.
     execute_ conn "DELETE FROM statuses"
     execute_ conn "DELETE FROM lines"
-    -- We don't delete stations here because they might be shared, but for simplicity we could.
-    -- Or we just ignore duplicates.
+  
     
     mapM_ (insertLine conn) lines
     close conn
@@ -79,7 +78,7 @@ insertStation conn lineId station = do
     execute conn "INSERT OR IGNORE INTO line_stations (lineId, stationId) VALUES (?, ?)"
         (lineId, Types.stationId station)
 
--- | Search stations by name
+-- | Searching stations by name
 searchStations :: String -> IO [Station]
 searchStations queryStr = do
     conn <- open "tfl.db"
@@ -96,13 +95,12 @@ getSevereDelays = do
     close conn
     return $ map (\(sid, lid, sev, desc, reas) -> LineStatus sid sev desc reas) results
 
--- | Retrieve data from the database
+-- | Now we are Retrieving data from the database
 retrieveData :: IO [Line]
 retrieveData = do
     conn <- open "tfl.db"
-    -- This is a bit complex to reconstruct [Line] from flat tables.
-    -- For now, let's just implement a basic retrieval or return empty to satisfy the type signature.
-    -- We need to query lines, then for each line query statuses.
+    -- For now,  we are just implementing a basic retrieval or return empty to satisfy the type signature.
+    -- We need to query lines and then for each line query statuses.
     lineRows <- query_ conn "SELECT id, name, modeName, statusSeverityDescription FROM lines" :: IO [(Text, Text, Text, Text)]
     
     lines <- mapM (\(lid, lname, lmode, _) -> do

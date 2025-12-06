@@ -58,7 +58,7 @@ main = do
             
         ("query":qArgs) -> do
             putStrLn $ "Running query: " ++ unwords qArgs
-            -- Implement generic query execution here
+            
             putStrLn "Query functionality not yet implemented."
 
         ["severe-delays"] -> withErrorHandling "Error checking delays" $ do

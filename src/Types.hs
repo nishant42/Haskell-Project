@@ -29,7 +29,7 @@ data Line = Line
     , lineStatuses :: [LineStatus]
     } deriving (Show, Generic)
 
--- | Data type representing the status of a line
+-- | This is aData type representing the status of a line
 data LineStatus = LineStatus
     { statusId :: Int
     , statusSeverity :: Int
@@ -37,7 +37,7 @@ data LineStatus = LineStatus
     , reason :: Maybe Text
     } deriving (Show, Generic)
 
--- | Data type representing a Station (StopPoint)
+-- | This is aData type representing a Station (StopPoint)
 data Station = Station
     { stationId :: Text
     , commonName :: Text
@@ -45,12 +45,12 @@ data Station = Station
     , lon :: Double
     } deriving (Show, Generic)
 
--- | Data type representing a Journey Response
+-- | This is aData type representing a Journey Response
 data JourneyResponse = JourneyResponse
     { journeys :: [Journey]
     } deriving (Show, Generic)
 
--- | Data type representing a single Journey option
+-- | This is a Data type representing a single Journey option
 data Journey = Journey
     { startDateTime :: Text
     , duration :: Int
@@ -58,7 +58,7 @@ data Journey = Journey
     , legs :: [Leg]
     } deriving (Show, Generic)
 
--- | Data type representing a Leg of a journey
+-- | This is a Data type representing a Leg of a journey
 data Leg = Leg
     { legDuration :: Int
     , instruction :: Instruction
@@ -67,19 +67,19 @@ data Leg = Leg
     , arrivalPoint :: Point
     } deriving (Show, Generic)
 
--- | Data type representing an instruction for a leg
+-- | This is a Data type representing an instruction for a leg
 data Instruction = Instruction
     { summary :: Text
     , detailed :: Maybe Text
     } deriving (Show, Generic)
 
--- | Data type representing a transport mode
+-- | This is a Data type representing a transport mode
 data Mode = Mode
     { modeId :: Text
     , mName :: Text
     } deriving (Show, Generic)
 
--- | Data type representing a point (departure/arrival)
+-- | This is a Data type representing a point (departure/arrival)
 data Point = Point
     { pointName :: Text
     } deriving (Show, Generic)

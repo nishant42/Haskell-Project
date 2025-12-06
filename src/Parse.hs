@@ -7,7 +7,7 @@ Maintainer  : example@example.com
 Stability   : experimental
 Portability : POSIX
 
-This module handles parsing of JSON responses from the TfL API into Haskell data types.
+This module handles the parsing of JSON responses from the TfL API into Haskell data types.
 -}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
@@ -18,27 +18,27 @@ import Data.Aeson
 import qualified Data.ByteString.Lazy as LBS
 import Types
 
--- | Parse JSON data into a list of Lines
+-- | Parse the JSON data into a list of Lines
 parseLines :: LBS.ByteString -> Either String [Line]
 parseLines = eitherDecode
 
--- | Parse JSON data into a list of Stations
+-- | Parse the JSON data into a list of Stations
 parseStations :: LBS.ByteString -> Either String [Station]
 parseStations = eitherDecode
 
--- | Generate JSON from data and write to file
+-- | Generate the JSON from data and write to file
 writeJson :: FilePath -> [Line] -> IO ()
 writeJson path lines = LBS.writeFile path (encode lines)
 
 -- | FromJSON and ToJSON instances
--- We use default generic instances which match the field names if they align with JSON
--- Note: TfL API uses "id", "name", "lineStatuses" etc.
--- Our Types.hs uses "id", "name", "lineStatuses".
--- However, "lineStatuses" in JSON might be "lineStatuses" or "LineStatuses".
--- TfL API usually uses camelCase.
--- "statusId" in LineStatus might be "id".
--- We might need custom instances if field names don't match exactly.
--- For now, let's assume they match or we'll fix it after testing.
+-- We will use the default generic instances which will match the field names if they align with JSON.
+-- Key point: TfL API uses "id", "name", "lineStatuses" etc.
+-- Key point: Types.hs uses "id", "name", "lineStatuses".
+-- Key point: "lineStatuses" in JSON might be "lineStatuses" or "LineStatuses".
+-- Key point: TfL API usually uses camelCase.
+-- Key point: "statusId" in LineStatus might be "id".
+-- We need a custom instance if field names don't match exactly.
+-- As of now, let's assume that they will match or we will fix it after testing it. 
 
 instance FromJSON Line
 instance ToJSON Line
@@ -58,7 +58,7 @@ instance FromJSON Station where
         <*> v .: "lon"
 instance ToJSON Station
 
--- | Parse JSON data into a JourneyResponse
+-- | Parse the JSON data into a JourneyResponse
 parseJourney :: LBS.ByteString -> Either String JourneyResponse
 parseJourney = eitherDecode
 
