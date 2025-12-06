@@ -1,22 +1,22 @@
 ? /Users/mannatsingh/.stack/programs/aarch64-osx/ghc-9.10.3/lib/ghc-9.10.3/lib/aarch64-osx-ghc-9.10.3/rts-1.0.2/include/ghcversion.h
 : hash: 7590ea01e313d089c303211ba85b0e4454627be40dcb88be287ed32f7e97187f
 /Users/mannatsingh/Downloads/Haskell-Project/.stack-work/dist/aarch64-osx/ghc-9.10.3/build/autogen/Paths_haskell_project.hs:
-  hash: 52f70775e643c922f9aa6d2d3d80f578646cefdc3eb027f99ebcffa6c3edbc1e
+  hash: 4cbab44a538af95ea70531e7c6167d90ffb8efacce09dcedcaeebbfd335df48e
 /Users/mannatsingh/Downloads/Haskell-Project/.stack-work/dist/aarch64-osx/ghc-9.10.3/build/autogen/cabal_macros.h:
-  hash: 395c069928398b772188500613a2380b77d0d5c3cc1e57044b871a3e731301f6
+  hash: b3a28c04946227346a4b3ba94b90f80a300d82648267549265a2726a512a157a
 /Users/mannatsingh/Downloads/Haskell-Project/CHANGELOG.md:
   hash: 4f827adb3b3becb6146708bd7fea9766fafdd6b18cff37f088c12afad0a8c448
 /Users/mannatsingh/Downloads/Haskell-Project/README.md:
   hash: abe6a2816161489c842d40815010e3d38d7c4487c10573c3f37e91abbf24e461
 /Users/mannatsingh/Downloads/Haskell-Project/haskell-project.cabal:
-  hash: 376798fa38924af78dfb3f95316a146168d368eb4665000cb7584d9255b18935
+  hash: ef031804b3927730deb2ceaef9c3511f6c2d5ef41fd462afa03f24695f24e566
 /Users/mannatsingh/Downloads/Haskell-Project/package.yaml:
-  hash: faddbc2abead1df1bd7155fb2de900c5c677e3d72f2d1e0f5d203236ef17c60f
+  hash: 06d7b68b704253839e22bb6633ba25801ed2199d059a2a94e0b98ef2c58083a4
 /Users/mannatsingh/Downloads/Haskell-Project/src/Database.hs:
-  hash: d246e43f9be147148309ac0be08bba20161dc53f3c11e325345f84a8ff9d0cce
+  hash: 2cf1a4d0903c77f871b9e3bc562a92feee9839bb38e9d2cfa4d41ba8fe1649f6
 /Users/mannatsingh/Downloads/Haskell-Project/src/Fetch.hs:
-  hash: bacb856718536260f0008c7b6a80c12f9a9ca35f658cc83197027c10480a7299
+  hash: ae8f0345c4c4da5b4e80ac3985bdc4646702ccde6bbb1a30a055f1f9c454e924
 /Users/mannatsingh/Downloads/Haskell-Project/src/Parse.hs:
-  hash: d234566ea56d7827ba2edfb94988b3c033fef55f71a04770d5d72e212c228ee9
+  hash: de101cad6c86c5e3d1f1721383cf2efa5426a86e8ab343b908d921f4f44faf9f
 /Users/mannatsingh/Downloads/Haskell-Project/src/Types.hs:
-  hash: 3b3273556b4e5a839a6e344944ab9d9610b2dff494bc974acd4cbaec99eea05f
+  hash: 29649cc0ccb9a67dae04b68ebb07158a492db68a8c5873c50bb2378df7672dbf

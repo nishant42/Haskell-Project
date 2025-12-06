@@ -17,13 +17,14 @@ appKey = "ce0be199e475450ab9d80bc67a0ae261"
 -- | URL for Tube Line Status
 -- We use the 'tube' mode to get status for all tube lines
 url :: String
-url = "https://api.tfl.gov.uk/Line/Mode/tube/Status?app_id=" ++ T.unpack appId ++ "&app_key=" ++ T.unpack appKey
+url = "https://api.tfl.gov.uk/Line/Mode/tube,dlr,overground,elizabeth-line,tram/Status?app_id=" ++ T.unpack appId ++ "&app_key=" ++ T.unpack appKey
 
 -- | Function to download data from the API
 downloadData :: IO LBS.ByteString
 downloadData = do
     request <- parseRequest url
-    response <- httpLBS request
+    let request' = setRequestCheckStatus request
+    response <- httpLBS request'
     return $ getResponseBody response
 
 -- | Function to download stations for a given line
@@ -31,7 +32,8 @@ fetchStations :: Text -> IO LBS.ByteString
 fetchStations lineId = do
     let url = "https://api.tfl.gov.uk/Line/" ++ T.unpack lineId ++ "/StopPoints?app_id=" ++ T.unpack appId ++ "&app_key=" ++ T.unpack appKey
     request <- parseRequest url
-    response <- httpLBS request
+    let request' = setRequestCheckStatus request
+    response <- httpLBS request'
     return $ getResponseBody response
 
 -- | Function to fetch journey options
@@ -43,5 +45,6 @@ fetchJourney from to modes preference = do
     let url = baseUrl ++ "?app_id=" ++ T.unpack appId ++ "&app_key=" ++ T.unpack appKey ++ modeParam ++ prefParam
     
     request <- parseRequest url
-    response <- httpLBS request
+    let request' = setRequestCheckStatus request
+    response <- httpLBS request'
     return $ getResponseBody response
