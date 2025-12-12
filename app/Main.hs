@@ -15,7 +15,7 @@ import System.Exit (exitSuccess)
 
 import Fetch (downloadData, fetchStations, fetchJourney)
 import Parse (parseLines, writeJson, parseStations, parseJourney)
-import Database (initialiseDB, saveData, retrieveData, saveStations, searchStations, getSevereDelays)
+import Database (initialiseDB, saveData, retrieveData, saveStations, searchStations, getSevereDelays, queryLinesBySeverity)
 import Types (Line(..), Station(..), LineStatus(..), JourneyResponse(..), Journey(..), Leg(..), Instruction(..), Mode(..), Point(..))
 
 main :: IO ()
@@ -25,7 +25,7 @@ main = do
         ["create"]           -> handleCreate
         ["loaddata"]         -> handleLoadData
         ["dumpdata"]         -> handleDumpData
-        ("query":qArgs)      -> handleQuery qArgs
+        ("filter-status":as) -> handleFilterStatus as
         ["severe-delays"]    -> handleSevereDelays
         ["search", queryStr] -> handleSearch queryStr
         ["plan-journey"]     -> handlePlanJourney
@@ -33,7 +33,7 @@ main = do
 
 -- | Print usage information
 printUsage :: IO ()
-printUsage = putStrLn "Usage: stack run -- [create|loaddata|dumpdata|query <args>|plan-journey]"
+printUsage = putStrLn "Usage: stack run -- [create|loaddata|dumpdata|filter-status <code >|plan-journey]"
 
 -- | Create the database tables
 handleCreate :: IO ()
@@ -74,11 +74,64 @@ handleDumpData = withErrorHandling "Getting Error while dumping data" $ do
     writeJson "data.json" lines
     putStrLn "Data dumped."
 
--- | Placeholder for generic queries
-handleQuery :: [String] -> IO ()
-handleQuery qArgs = do
-    putStrLn $ "Running query: " ++ unwords qArgs
-    putStrLn "the functionality for query is not yet implemented."
+-- | Filter lines by status severity
+handleFilterStatus :: [String] -> IO ()
+handleFilterStatus qArgs = do
+    severity <- case qArgs of
+        [severityStr] -> case readMaybe severityStr of
+            Just s -> return $ Just s
+            Nothing -> do
+                putStrLn "Invalid severity code. Please provide an integer."
+                return Nothing
+        [] -> showFilterMenu
+        _ -> do
+             putStrLn "Usage: stack run -- filter-status [severity_code]"
+             return Nothing
+
+    case severity of
+        Just sev -> do
+            results <- queryLinesBySeverity sev
+            if null results
+                then putStrLn $ "No lines found with severity " ++ show sev ++ "."
+                else do
+                    putStrLn $ "Lines with severity " ++ show sev ++ ":"
+                    mapM_ (\(name, s) -> putStrLn $ "  - " ++ T.unpack name ++ ": " ++ show (Types.statusSeverityDescription s) ++ " (" ++ show (severityReason s) ++ ")") results
+        Nothing -> return ()
+  where
+    severityReason s = maybe "No Reason" Prelude.id (Types.reason s)
+
+    showFilterMenu :: IO (Maybe Int)
+    showFilterMenu = do
+        putStrLn "Select a status to filter by:"
+        putStrLn "1. Good Service (10)"
+        putStrLn "2. Minor Delays (9)"
+        putStrLn "3. Severe Delays (6)"
+        putStrLn "4. Part Closure (5)"
+        putStrLn "5. Planned Closure (4)"
+        putStrLn "6. Service Closed (20)"
+        putStrLn "7. Enter Custom Code"
+        putStr "Selection: "
+        hFlush stdout
+        input <- getLine
+        case input of
+            "1" -> return $ Just 10
+            "2" -> return $ Just 9
+            "3" -> return $ Just 6
+            "4" -> return $ Just 5
+            "5" -> return $ Just 4
+            "6" -> return $ Just 20
+            "7" -> do
+                putStr "Enter severity code: "
+                hFlush stdout
+                code <- getLine
+                case readMaybe code of
+                    Just c -> return $ Just c
+                    Nothing -> do
+                        putStrLn "Invalid code."
+                        return Nothing
+            _ -> do
+                putStrLn "Invalid selection."
+                return Nothing
 
 -- | Check for severe delays
 handleSevereDelays :: IO ()

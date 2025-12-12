@@ -89,6 +89,15 @@ getSevereDelays = do
     close conn
     return $ map (\(sid, lid, sev, desc, reas) -> LineStatus sid sev desc reas) results
 
+-- | Query lines by severity status
+-- Returns a list of (LineName, LineStatus) tuples
+queryLinesBySeverity :: Int -> IO [(Text, LineStatus)]
+queryLinesBySeverity severity = do
+    conn <- open "tfl.db"
+    results <- query conn "SELECT lines.name, statuses.id, statuses.severity, statuses.description, statuses.reason FROM statuses JOIN lines ON statuses.lineId = lines.id WHERE statuses.severity = ?" (Only severity) :: IO [(Text, Int, Int, Text, Maybe Text)]
+    close conn
+    return $ map (\(lname, sid, sev, desc, reas) -> (lname, LineStatus sid sev desc reas)) results
+
 -- | Now we are Retrieving data from the database
 retrieveData :: IO [Line]
 retrieveData = do
