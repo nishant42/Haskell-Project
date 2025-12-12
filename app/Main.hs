@@ -148,7 +148,9 @@ resolveStation :: String -> IO String
 resolveStation input = do
     results <- searchStations input
     case results of
-        [station] -> return (T.unpack $ Types.stationId station)
+        [station] -> do
+            putStrLn $ "Selected station: " ++ show (Types.commonName station)
+            return (T.unpack $ Types.stationId station)
         [] -> do
             putStrLn "No matching stations found. Please try again."
             putStr "Enter station name (or 'exit'): "

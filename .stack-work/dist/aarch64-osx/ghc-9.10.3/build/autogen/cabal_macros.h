@@ -91,15 +91,15 @@
   (major1) == 1 && (major2) == 12 && (minor) <= 2)
 #endif /* MIN_VERSION_time */
 
-/* tool gcc-17.0.0 */
+/* tool gcc-16.0.0 */
 #ifndef TOOL_VERSION_gcc
-#define TOOL_VERSION_gcc "17.0.0"
+#define TOOL_VERSION_gcc "16.0.0"
 #endif /* TOOL_VERSION_gcc */
 #ifndef MIN_TOOL_VERSION_gcc
 #define MIN_TOOL_VERSION_gcc(major1,major2,minor) (\
-  (major1) <  17 || \
-  (major1) == 17 && (major2) <  0 || \
-  (major1) == 17 && (major2) == 0 && (minor) <= 0)
+  (major1) <  16 || \
+  (major1) == 16 && (major2) <  0 || \
+  (major1) == 16 && (major2) == 0 && (minor) <= 0)
 #endif /* MIN_TOOL_VERSION_gcc */
 /* tool ghc-9.10.3 */
 #ifndef TOOL_VERSION_ghc
